@@ -1,6 +1,6 @@
+require('dotenv').config();
 const { leerInput, inquirerMenu, pausa } = require("./helpers/inquirer");
 const Search = require("./models/Search");
-
 
 const main = async () => {
     let opcionMenu;
@@ -11,6 +11,7 @@ const main = async () => {
             case 1:
             //Show message to the user 
             const place = await leerInput('Enter the name of the place to search:')
+            await search.city(place);
             // Search the differents places
 
             // Select the correct place
