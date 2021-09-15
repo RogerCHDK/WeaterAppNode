@@ -23,10 +23,14 @@ class Search{
                 params : this.paramsMapBox
               });
             const resp = await instance.get();
-            console.log(resp.data);
-    
-            // return all the places that it match wiht the search
-            return [];
+            
+             // return all the places that it match wiht the search
+            return resp.data.features.map( place => ({
+                'id': place.id,
+                'name': place.place_name,
+                'lng': place.center[0],
+                'lat': place.center[1]
+            }))
         } catch (error) {
             return [];
         }
