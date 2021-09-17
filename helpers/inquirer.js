@@ -5,19 +5,19 @@ const preguntas = [
     {
         type: 'list',
         name: 'opcion',
-        message: '¿Qué desea hacer?',
+        message: 'What do you want to do?',
         choices: [
             {
                 value: 1,
-                name: `${ '1.'.green } Buscar ciudad`
+                name: `${ '1.'.green } Search city`
             },
             {
                 value: 2,
-                name: `${ '2.'.green } Historial`
+                name: `${ '2.'.green } History`
             },
             {
                 value: 3,
-                name: `${ '3.'.green } Salir`
+                name: `${ '3.'.green } Exit`
             },
         ]
     }
@@ -29,7 +29,7 @@ const inquirerMenu = async() => {
 
     console.clear();
     console.log('=========================='.green);
-    console.log('  Seleccione una opción'.white );
+    console.log(' Choose an option '.white );
     console.log('==========================\n'.green);
 
     const { opcion } = await inquirer.prompt(preguntas);
@@ -43,7 +43,7 @@ const pausa = async() => {
         {
             type: 'input',
             name: 'enter',
-            message: `Presione ${ 'enter'.green } para continuar`
+            message: `Press ${ 'enter'.green } to continue`
         }
     ];
 
@@ -60,7 +60,7 @@ const leerInput = async( message ) => {
             message,
             validate( value ) {
                 if( value.length === 0 ) {
-                    return 'Por favor ingrese un valor';
+                    return 'Please insert a value';
                 }
                 return true;
             }
@@ -84,8 +84,8 @@ const listPlaces = async( places = [] ) => {
     });
 
     choices.unshift({
-        value: '0',
-        name: '0.'.green + ' Cancelar'
+        value: 0,
+        name: '0.'.green + ' Cancel '
     });
 
     const preguntas = [
