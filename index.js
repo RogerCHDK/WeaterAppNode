@@ -21,6 +21,8 @@ const main = async () => {
             if (idPlaceSelect === 0) continue;
             // otherwise search the place in a list
             const placeSelect = places.find( place => place.id === idPlaceSelect);
+            // Save the place in the DBA
+            search.addHistory(placeSelect.name);
             // Show the weater
             const weather = await search.weatherPlace(placeSelect.lat, placeSelect.lng);
             // Show general information about the place
@@ -36,7 +38,10 @@ const main = async () => {
             console.log('Description: ', weather.description.green)
             break;
             case 2:
-                console.log('opt 2');
+                search.historyUpper.forEach( (place, i) => {
+                    let idx = `${i+1} .`.green;
+                    console.log(`${idx} ${place}`);
+                });
             break;
             case 3:
                 console.log('Good Bye');

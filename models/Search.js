@@ -1,11 +1,16 @@
+const fs = require('fs');
+
 const axios = require('axios');
 class Search{
 
-    history = ['Mexico', 'Durango','Toluca']
+    history = [];
     latitud;
     longitud;
+    pathDataBase = './db/database.json';
+
     constructor(){
         // Read if exist some records in the database
+        this.readDataBase();
     }
 
     set latitud ( latitud ){
@@ -31,10 +36,6 @@ class Search{
         };
     }
 
-    // set paramsOpenWeather(latitud, longitud) {
-    //     this.paramsOpenWeatherProperty = 
-    // }
-
     get paramsOpenWeather( ){
         return {
             'appid': process.env.OPENWEATHER_KEY,
@@ -43,6 +44,10 @@ class Search{
             'lat': this.latitud,
             'lon': this.longitud
         };
+    }
+
+    get historyUpper(){
+        return this.history.map( place => place.toUpperCase());
     }
 
     async city( place = ''){
@@ -94,6 +99,40 @@ class Search{
             console.log(error);
         }
         
+    }
+
+    addHistory( place = '' ){
+        // Validate if the place already exist in the history
+        // my form
+        // this.history.indexOf(place) !== -1 ?
+        //                         this.history.splice( this.history.indexOf(place), 1 ) && this.history.unshift( place ):
+        //                         this.history.unshift( place );
+        if (this.history.includes( place.toLowerCase()) ) {
+            return;
+        }          
+        this.history.unshift( place.toLowerCase() );
+        this.saveDataBase();              
+    }
+
+    saveDataBase(){
+        const payload = {
+            'history': this.history
+        };
+
+        fs.writeFileSync( this.pathDataBase, JSON.stringify( payload ));
+    }
+
+    readDataBase(){
+        if( !fs.existsSync(this.pathDataBase) ){
+            return null;
+        }
+        
+        const info = fs.readFileSync(this.pathDataBase, { encoding: 'utf-8' });
+        const data = JSON.parse( info );
+        console.log(data.history)
+        if (data.history) {
+            this.history = data.history;
+        }
     }
 
 }
